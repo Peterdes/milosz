@@ -29,7 +29,7 @@ Sklepikarz::Sklepikarz(queue<string> *const komunikaty, mt19937& gen)
 	50,	//ruch
 	uniform_int_distribution<int>(50,100)(gen),	//sila (zahartowani ci sklepikarze)
 	uniform_int_distribution<int>(50,100)(gen)	//zdrowie
-  ), _dostawy(0.1), _gen(gen) { init(); }
+  ), _dostawy(0.05), _gen(gen) { init(); }
 
 Sklepikarz::~Sklepikarz() { }
 

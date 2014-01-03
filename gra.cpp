@@ -190,7 +190,7 @@ void Gra::zakoncz()
 	_stanGry = KONIEC;
 }
 
-Pole const * Gra::pole(int w)
+Pole const * Gra::pole(int w) const
 {
 	return _teren[w];
 }

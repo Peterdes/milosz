@@ -46,7 +46,7 @@ public:
 	/*
 	 * Zwraca identyfikator pola o danych współrzędnych
 	 */
-	Pole const * pole(int w);
+    Pole const * pole(int w) const;
 	/*
 	 * Komunikaty wysyłam do interfejsu wrzucając je na kolejkę (do bufora).
 	 * Komunikaty są trzymane w Miłoszu - chyba słabe rozwiązanie, ale na

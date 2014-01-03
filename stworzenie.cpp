@@ -116,10 +116,10 @@ bool Stworzenie::walcz(Stworzenie * przeciwnik)
 	if(przeciwnik->milosz())
 		_komunikaty->push( przedstaw() + " zadal Ci " + to_string(obraz1) + " obrazen." );
 	if(milosz())
- 		_komunikaty->push( "Zadales " + przedstaw() + " " + to_string(obraz1) + " obrazen." );
+ 		_komunikaty->push( "Zadales " + przeciwnik->przedstaw() + " " + to_string(obraz1) + " obrazen." );
 	
 	if(milosz())
-		_komunikaty->push( przedstaw() + " zadal Ci " + to_string(obraz2) + " obrazen." );
+		_komunikaty->push( przeciwnik->przedstaw() + " zadal Ci " + to_string(obraz2) + " obrazen." );
 	if(przeciwnik->milosz())
  		_komunikaty->push( "Zadales " + przedstaw() + " " + to_string(obraz2) + " obrazen." );
 	

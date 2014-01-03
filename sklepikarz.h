@@ -29,7 +29,7 @@ private:
 	bool _maPrezent;
 	float _dostawy;	//prawdopodobienstwo dostawy
 	std::mt19937& _gen;
-	static uniform_real_distribution<float> dist;\
+	static uniform_real_distribution<float> dist;
 	
 	void init();
 };

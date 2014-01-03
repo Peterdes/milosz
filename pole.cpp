@@ -145,7 +145,7 @@ int PoleNiedostepne::ruch() const
 	return 0;
 }
 
-bool PoleNiedostepne::postaw(Stworzenie * stw)
+bool PoleNiedostepne::postaw(Stworzenie *)
 {
 	return false;
 }

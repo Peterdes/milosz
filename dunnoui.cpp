@@ -48,7 +48,7 @@ void pokaz(Gra& gra)
 		<< "S: " << gra.milosz().sila() << "  |  "
 		<< "Z: " << gra.milosz().zbroja() << "  |  "
 		<< "B: " << gra.milosz().bron() << "  |  "
-		<< "P: " << gra.milosz().prezent() << endl;
+		<< "P: " << int( gra.milosz().prezent() ) << endl;
 }
 
 int main(int argc, char* *argv)
