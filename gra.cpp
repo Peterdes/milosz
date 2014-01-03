@@ -164,6 +164,9 @@ bool Gra::idz(Kierunek kier)
 {
 	if(_stanGry > 0) return false;
 	
+	if(_milosz.pole()->obok(kier)->ruch() > _milosz.ruch())
+		tura();
+	
 	bool res = _milosz.ruszSie(kier);
 	if(_milosz.pole()->skarb())
 	{
