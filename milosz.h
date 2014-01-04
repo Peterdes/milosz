@@ -1,6 +1,6 @@
 #ifndef MILOSZ_H
 #define MILOSZ_H
-#include "poszukiwacz.h"
+#include "rozwiniete.h"
 
 class Milosz : public Poszukiwacz
 {

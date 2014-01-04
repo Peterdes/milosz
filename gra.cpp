@@ -1,5 +1,5 @@
 #include "gra.h"
-#include "pola.h"
+#include "pole.h"
 #include "stworzenia.h"
 #include <cassert>
 

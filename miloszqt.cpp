@@ -1,12 +1,14 @@
 #include "miloszqt.h"
-#include "ui_miloszqt.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QString>
 #include <QShortcut>
 #include <QMenu>
+#include <QMenuBar>
 #include <QAction>
+#include <QListWidget>
+#include <QLabel>
 #include <fstream>
 #include "textplansza.h"
 
@@ -15,7 +17,8 @@ miloszqt::miloszqt(QWidget *parent) :
 {
     gra = nullptr;
 
-    QMenu *plikMenu = menuBar()->addMenu("&Plik");
+    //QMenu *plikMenu =
+            menuBar()->addMenu("&Plik");
 
     QAction *goraAct = new QAction(QString("&Góra"), this);
     connect(goraAct, &QAction::triggered,

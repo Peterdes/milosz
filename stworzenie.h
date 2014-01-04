@@ -75,7 +75,7 @@ public:
 	 * Rozmawiaj ze stworzeniem. Tu wkładamy m.in. mechanikę sklepikarza,
 	 * znachorki, barda etc.; domyślnie nic nie robię
 	 */
-	virtual void rozmawiaj(Stworzenie * inne);
+    virtual void rozmawiaj(Stworzenie *);
 	/*
 	 * Zakończ turę
 	 */

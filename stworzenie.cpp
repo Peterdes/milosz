@@ -143,7 +143,7 @@ bool Stworzenie::wejdz(Pole * docelowe)
 	return true;
 }
 
-void Stworzenie::rozmawiaj(Stworzenie * inne)
+void Stworzenie::rozmawiaj(Stworzenie *)
 {
 }
 
@@ -157,12 +157,12 @@ bool Stworzenie::wezPrezent()
 	return false;
 }
 
-bool Stworzenie::wezZbroje(float x)
+bool Stworzenie::wezZbroje(float)
 {
 	return false;
 }
 
-bool Stworzenie::wezBron(float x)
+bool Stworzenie::wezBron(float)
 {
 	return false;
 }
