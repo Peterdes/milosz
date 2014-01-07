@@ -2,11 +2,11 @@
 #define POLE_H
 #include <string>
 
+using std::string;
+
 class Stworzenie;
 
-using namespace std;
-
-enum Kierunek { LEWO, DOL, GORA, PRAWO };
+enum class Kierunek : int { LEWO = 0, DOL = 1, GORA = 2, PRAWO = 3 };
 
 class Pole
 {
@@ -58,34 +58,25 @@ public:
 	/*
 	 * Pokazuje skarb
 	 */
-	bool pokazSkarb();
+	virtual bool pokazSkarb();
 	/*
 	 * Czy widac na nim skarb?
 	 */
-	bool widacSkarb() const;
+	virtual bool widacSkarb() const;
 	/*
 	 * Czy jest na nim skarb?
 	 */
-	bool skarb() const;
+	virtual bool skarb() const;
 	/*
 	 * Ustaw sąsiada
 	 */
 	void ustawSasiada(Kierunek, Pole *);
-	/*
-	 * Ustaw skarb
-	 */
-	void postawSkarb();
-	/*
-	 * Zdejmij skarb
-	 */
-	void zdejmijSkarb();
 private:
 	Pole(const Pole&);
 	Pole& operator=(Pole& inne); //nie chcemy
 
 	int _w; //współrzędne
 	Pole * _sasiad[4];
-	int _skarb; //czy jest tu skarb? 1 - tak, 2 - tak, widać
 };
 
 
@@ -126,8 +117,7 @@ class Skaly : public PoleNiedostepne
 public:
     Skaly(int);
     virtual ~Skaly();
-    const string& przedstaw() const;
-private:
+	const string& przedstaw() const;
     static const string wyglad;
 };
 
@@ -137,8 +127,7 @@ public:
     Trawy(int,Stworzenie * = nullptr);
     virtual ~Trawy();
     const string& przedstaw() const;
-    int ruch() const;
-private:
+	int ruch() const;
     static const string wyglad;
 };
 
@@ -148,8 +137,7 @@ public:
     Drogi(int,Stworzenie * = nullptr);
     virtual ~Drogi();
     const string& przedstaw() const;
-    int ruch() const;
-private:
+	int ruch() const;
     static const string wyglad;
 };
 
@@ -159,8 +147,7 @@ public:
     Pagorki(int,Stworzenie * = nullptr);
     virtual ~Pagorki();
     virtual const string& przedstaw() const;
-    virtual int ruch() const;
-private:
+	virtual int ruch() const;
     static const string wyglad;
 };
 
@@ -169,9 +156,22 @@ class Jaskinie : public Pagorki
 public:
     Jaskinie(int,Stworzenie * = nullptr);
     virtual ~Jaskinie();
-    const string& przedstaw() const;
-private:
+	virtual const string& przedstaw() const;
     static const string wyglad;
+};
+
+class Skarb : public Jaskinie
+{
+public:
+	Skarb(int);
+	virtual ~Skarb();
+	const string& przedstaw() const;
+	bool pokazSkarb();
+	bool skarb() const;
+	bool widacSkarb() const;
+	static const string wyglad;
+private:
+	bool widac;
 };
 
 class Rzeki : public PoleDostepne
@@ -181,8 +181,7 @@ public:
     virtual ~Rzeki();
     const string& przedstaw() const;
     int ruch() const;
-    int obrazenia() const;
-private:
+	int obrazenia() const;
     static const string wyglad;
 };
 
@@ -192,8 +191,7 @@ public:
     Bagna(int,Stworzenie * = nullptr);
     virtual ~Bagna();
     const string& przedstaw() const;
-    int ruch() const;
-private:
+	int ruch() const;
     static const string wyglad;
 };
 

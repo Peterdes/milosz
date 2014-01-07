@@ -2,9 +2,13 @@
 #define STWORZENIE_H
 #include <queue>
 #include <string>
+#include <random>
+#include <array>
 #include "pole.h"
 
-using namespace std;
+using std::queue;
+using std::string;
+using std::mt19937;
 
 class Stworzenie
 {
@@ -75,7 +79,7 @@ public:
 	 * Rozmawiaj ze stworzeniem. Tu wkładamy m.in. mechanikę sklepikarza,
 	 * znachorki, barda etc.; domyślnie nic nie robię
 	 */
-    virtual void rozmawiaj(Stworzenie *);
+	virtual void rozmawiaj(Stworzenie *);
 	/*
 	 * Zakończ turę
 	 */
@@ -110,7 +114,7 @@ protected:
 	/*
 	 * Losuj kierunki ruchu
 	 */
-	static int losujRuchy();
+	static std::array<Kierunek,4> losujRuchy();
 	
 	queue<string> * const _komunikaty; //gdzie wyrzucamy komunikaty
 	

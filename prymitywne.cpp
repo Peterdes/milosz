@@ -3,17 +3,15 @@
 #include <random>
 #include <algorithm>
 
-using namespace std;
-
 Prymitywne::Prymitywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-: Stworzenie(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
+	: Stworzenie(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Prymitywne::Prymitywne(queue<string> *const komunikaty, mt19937& gen)
-: Stworzenie(
-	komunikaty,
-	70,	//ruch
-	min(geometric_distribution<int>(0.04)(gen), 100),	//sila
-	uniform_int_distribution<int>(5, 40)(gen)) {}		//zdrowie
+	: Stworzenie(
+		  komunikaty,
+		  70,	//ruch
+		  std::min(std::geometric_distribution<int>(0.04)(gen), 100),	//sila
+		  std::uniform_int_distribution<int>(5, 40)(gen)) {}		//zdrowie
 
 Prymitywne::~Prymitywne() {}
 
@@ -29,27 +27,27 @@ bool Prymitywne::czlowiek() const
 
 bool Prymitywne::ruszSie()
 {
-	int k = 0;
-	while(ruch() > 0 && k != 4 && pole() != nullptr)
+	int t = 0;
+	while(ruch() > 0 && t != 4 && pole() != nullptr)
 	{
-		int ruchy = losujRuchy();
-		for(k = 0; k < 4 && ruch() > 0; ++k)
+		std::array<Kierunek,4> ruchy = losujRuchy();
+		t = 0;
+		for(auto & k : ruchy)
 		{
-			int kier = ruchy % 4;
-			ruchy >>= 2;
-			if(! pole()->obok(Kierunek(kier))->puste())
-				if(ruszSie(Kierunek(kier)))
+			if(! pole()->obok(k)->puste())
+				if(ruszSie(k))
 					break;
+			++t;
 		}
-		if(k == 4)
+		if(t == 4)
 		{
 			ruchy = losujRuchy();
-			for(k = 0; k < 4 && ruch() > 0; ++k)
+			t = 0;
+			for(auto & k : ruchy)
 			{
-				int kier = ruchy % 4;
-				ruchy >>= 2;
-				if(ruszSie(Kierunek(kier)))
+				if(ruszSie(k))
 					break;
+				++t;
 			}
 		}
 	}
@@ -57,10 +55,10 @@ bool Prymitywne::ruszSie()
 }
 
 Agresywne::Agresywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
+	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Agresywne::Agresywne(queue<string> *const komunikaty, mt19937& gen)
-: Prymitywne(komunikaty, gen) {}
+	: Prymitywne(komunikaty, gen) {}
 
 Agresywne::~Agresywne() {}
 
@@ -80,10 +78,10 @@ bool Agresywne::ruszSie(Kierunek kier)
 }
 
 Wybredne::Wybredne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
+	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Wybredne::Wybredne(queue<string> *const komunikaty, mt19937& gen)
-: Prymitywne(komunikaty, gen) {}
+	: Prymitywne(komunikaty, gen) {}
 
 Wybredne::~Wybredne() {}
 
@@ -107,10 +105,10 @@ bool Wybredne::ruszSie(Kierunek kier)
 }
 
 Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
+	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, mt19937& gen)
-: Prymitywne(komunikaty, gen) {}
+	: Prymitywne(komunikaty, gen) {}
 
 Tchorzliwe::~Tchorzliwe() {}
 
@@ -135,10 +133,10 @@ bool Tchorzliwe::ruszSie(Kierunek kier)
 }
 
 Neutralne::Neutralne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
+	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Neutralne::Neutralne(queue<string> *const komunikaty, mt19937& gen)
-: Prymitywne(komunikaty, gen) {}
+	: Prymitywne(komunikaty, gen) {}
 
 Neutralne::~Neutralne() {}
 

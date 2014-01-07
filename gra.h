@@ -8,9 +8,11 @@
 #include <map>
 #include <random>
 
-enum Stan { TRWA, KONIEC, WYGRANA, PRZEGRANA };
+enum class Stan { TRWA, KONIEC, WYGRANA, PRZEGRANA };
 
-using namespace std;
+using std::vector;
+using std::queue;
+using std::string;
 
 #include "pole.h"
 #include "milosz.h"
@@ -21,7 +23,7 @@ public:
 	/*
 	 * Konstruuje grę z planszy ze strumienia
 	 */
-	Gra(istream&);
+	Gra(std::istream&);
 	/*
 	 * Destruktor
 	 */
@@ -61,13 +63,13 @@ public:
 	/*
 	 * Informują o rozmiarze
 	 */
-	pair<int, int> rozmiar() const;
+	std::pair<int, int> rozmiar() const;
 	int xRozmiar() const;
 	int yRozmiar() const;
 	/*
 	 * Liczą współrzędne
 	 */
-	pair<int, int> wspolrzedne(int) const;
+	std::pair<int, int> wspolrzedne(int) const;
 	int x(int) const;
 	int x(const Pole &) const;
 	int x(const Stworzenie &) const;

@@ -4,7 +4,7 @@
  * Pole
  */
 
-Pole::Pole(int w) : _w(w), _sasiad{nullptr}, _skarb(0) {}
+Pole::Pole(int w) : _w(w), _sasiad{nullptr} {}
 Pole::~Pole() {}
 
 int Pole::obrazenia() const
@@ -19,49 +19,32 @@ int Pole::wspolrzedne() const
 
 Pole * Pole::obok(Kierunek k)
 {
-	return _sasiad[k];
+	return _sasiad[int(k)];
 }
 
 Pole const * Pole::obok(Kierunek k) const
 {
-	return _sasiad[k];
+	return _sasiad[int(k)];
 }
 
 bool Pole::pokazSkarb()
 {
-	if(_skarb)
-	{
-		_skarb = 2;
-		return true;
-	}
-	else return false;
+	return false;
 }
 
 bool Pole::widacSkarb() const
 {
-	if(_skarb == 2)
-		return true;
-	else return false;
+	return false;
 }
 
 bool Pole::skarb() const
 {
-	return _skarb > 0;
+	return false;
 }
 
 void Pole::ustawSasiada(Kierunek kier, Pole * sasiad)
 {
-	_sasiad[kier] = sasiad;
-}
-
-void Pole::postawSkarb()
-{
-	_skarb = 1;
-}
-
-void Pole::zdejmijSkarb()
-{
-	_skarb = 0;
+	_sasiad[int(kier)] = sasiad;
 }
 
 /*
@@ -69,7 +52,7 @@ void Pole::zdejmijSkarb()
  */
 
 PoleDostepne::PoleDostepne(int w, Stworzenie * stw)
-: Pole(w),_stworzenie(stw) {}
+	: Pole(w),_stworzenie(stw) {}
 
 PoleDostepne::~PoleDostepne() {}
 
@@ -112,7 +95,7 @@ bool PoleDostepne::postaw(Stworzenie * stw)
  * Pole niedostępne
  */
 PoleNiedostepne::PoleNiedostepne(int w)
-: Pole(w) {}
+	: Pole(w) {}
 
 PoleNiedostepne::~PoleNiedostepne() {}
 
@@ -159,7 +142,7 @@ const string Skaly::wyglad("Skaly");
 
 const string& Skaly::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 Jaskinie::Jaskinie(int w,Stworzenie * stw) : Pagorki(w, stw) {}
@@ -170,7 +153,35 @@ const string Jaskinie::wyglad("Jaskinie");
 
 const string& Jaskinie::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
+}
+
+Skarb::Skarb(int w) : Jaskinie(w), widac(false) {}
+
+Skarb::~Skarb() {};
+
+const string Skarb::wyglad("Skarb");
+
+const string& Skarb::przedstaw() const
+{
+	if(widac) return wyglad;
+	else return Jaskinie::przedstaw();
+}
+
+bool Skarb::pokazSkarb()
+{
+	widac = true;
+	return true;
+}
+
+bool Skarb::widacSkarb() const
+{
+	return widac;
+}
+
+bool Skarb::skarb() const
+{
+	return true;
 }
 
 Trawy::Trawy(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -181,12 +192,12 @@ const string Trawy::wyglad("Trawy");
 
 const string& Trawy::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 int Trawy::ruch() const
 {
-    return 30;
+	return 30;
 }
 
 Drogi::Drogi(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -197,12 +208,12 @@ const string Drogi::wyglad("Drogi");
 
 const string& Drogi::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 int Drogi::ruch() const
 {
-    return 20;
+	return 20;
 }
 
 Pagorki::Pagorki(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -213,12 +224,12 @@ const string Pagorki::wyglad("Pagorki");
 
 const string& Pagorki::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 int Pagorki::ruch() const
 {
-    return 50;
+	return 50;
 }
 
 Rzeki::Rzeki(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -229,17 +240,17 @@ const string Rzeki::wyglad("Rzeki");
 
 const string& Rzeki::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 int Rzeki::obrazenia() const
 {
-    return 5;
+	return 5;
 }
 
 int Rzeki::ruch() const
 {
-    return 100;
+	return 100;
 }
 
 Bagna::Bagna(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -250,12 +261,12 @@ const string Bagna::wyglad("Bagna");
 
 const string& Bagna::przedstaw() const
 {
-    return wyglad;
+	return wyglad;
 }
 
 int Bagna::ruch() const
 {
-    return 70;
+	return 70;
 }
 
 MartweBagna::MartweBagna(int w,Stworzenie * stw) : Bagna(w, stw) {}
@@ -264,7 +275,7 @@ MartweBagna::~MartweBagna() {};
 
 int MartweBagna::obrazenia() const
 {
-    return 1000000;
+	return 1000000;
 }
 
 ZwykleBagna::ZwykleBagna(int w,Stworzenie * stw) : Bagna(w, stw) {}

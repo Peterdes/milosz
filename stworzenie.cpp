@@ -2,12 +2,13 @@
 #include "pole.h"
 #include <ctime>
 #include <cstdlib>
+#include <algorithm>
 
 Stworzenie::Stworzenie(queue<string> *const komunikaty, 
-		       int ruch, int sila, int maxZdrowie, int zdrowie)
-: _pktyRuchu(ruch), _maxRuchu(ruch), 
-_pktyZdrowia(zdrowie), _maxZdrowia(maxZdrowie),
-_sila(sila), _komunikaty(komunikaty), _pole(0)
+					   int ruch, int sila, int maxZdrowie, int zdrowie)
+	: _pktyRuchu(ruch), _maxRuchu(ruch),
+	  _pktyZdrowia(zdrowie), _maxZdrowia(maxZdrowie),
+	  _sila(sila), _komunikaty(komunikaty), _pole(0)
 {
 	if(zdrowie == 0) _pktyZdrowia = _maxZdrowia;
 }
@@ -92,16 +93,14 @@ void Stworzenie::oberwij(int obrazenia)
 	if(_pktyZdrowia <= 0)
 	{
 		_pktyZdrowia = 0;
-		if(milosz())
-			_komunikaty->push( "Umarles!" );
 		postaw(nullptr);
 	}
 }
 
 int Stworzenie::obrazenia(Stworzenie * ofiara)
 {
-	return int(float(_sila) * float(_pktyZdrowia) / 100.0 
-		* (1.0 + bron()) * (1.0 - ofiara->zbroja()));
+	return int(float(_sila) * float(_pktyZdrowia) / 100.0
+			   * (1.0 + bron()) * (1.0 - ofiara->zbroja()));
 }
 
 bool Stworzenie::walcz(Stworzenie * przeciwnik)
@@ -112,16 +111,18 @@ bool Stworzenie::walcz(Stworzenie * przeciwnik)
 		return false;
 	int obraz1 = obrazenia(przeciwnik);
 	int obraz2 = przeciwnik->obrazenia(this);
+
+	using std::to_string;
 	
 	if(przeciwnik->milosz())
 		_komunikaty->push( przedstaw() + " zadal Ci " + to_string(obraz1) + " obrazen." );
 	if(milosz())
- 		_komunikaty->push( "Zadales " + przeciwnik->przedstaw() + " " + to_string(obraz1) + " obrazen." );
+		_komunikaty->push( "Zadales " + przeciwnik->przedstaw() + " " + to_string(obraz1) + " obrazen." );
 	
 	if(milosz())
 		_komunikaty->push( przeciwnik->przedstaw() + " zadal Ci " + to_string(obraz2) + " obrazen." );
 	if(przeciwnik->milosz())
- 		_komunikaty->push( "Zadales " + przedstaw() + " " + to_string(obraz2) + " obrazen." );
+		_komunikaty->push( "Zadales " + przedstaw() + " " + to_string(obraz2) + " obrazen." );
 	
 	przeciwnik->oberwij(obraz1);
 	oberwij(obraz2);
@@ -138,7 +139,7 @@ bool Stworzenie::wejdz(Pole * docelowe)
 	if(docelowe->ruch() > _pktyRuchu)
 		return false;
 	_pktyRuchu -= docelowe->ruch();
-	_pktyZdrowia -= docelowe->obrazenia();
+	oberwij(docelowe->obrazenia());
 	postaw(docelowe);
 	return true;
 }
@@ -182,28 +183,10 @@ void Stworzenie::tura()
 	_pktyRuchu = _maxRuchu;
 }
 
-int Stworzenie::losujRuchy()
+std::array<Kierunek,4> Stworzenie::losujRuchy()
 {
-	int res1 = 0, res2 = 0, res3 = 0;
-	int n = rand();
-// 	n = n - (n >> 2) << 2;
-	n = n % 4;
-	res1 = n;
-	do
-	{
-		n = rand();
-// 		n = n - (n >> 2) << 2;
-		n = n % 4;
-	} while(n == res1);
-	res2 = n;
-	do
-	{
-		n = rand();
-// 		n = n - (n >> 2) << 2;
-		n = n % 4;
-	} while(n == res1 || n == res2);
-	res3 = n;
-	n = 0;
-	while(n == res1 || n == res2 || n == res3) ++n;
-	return (res1 << 6) + (res2 << 4) + (res3 << 2) + n;
+	std::array<Kierunek, 4> kierunki = { Kierunek::GORA, Kierunek::DOL, Kierunek::LEWO, Kierunek::PRAWO };
+	std::srand( unsigned ( std::time(0) ) );
+	std::random_shuffle(kierunki.begin(),kierunki.end());
+	return kierunki;
 }

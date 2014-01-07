@@ -7,14 +7,14 @@ class Gra;
 
 class TextPlansza : public QTextBrowser
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit TextPlansza(QWidget *parent = 0);
+	explicit TextPlansza(QWidget *parent = 0);
 
 signals:
 
 public slots:
-    void pokazPlansze(Gra const * gra);
+	void pokazPlansze(Gra const * gra);
 
 };
 
