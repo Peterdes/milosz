@@ -68,6 +68,7 @@ miloszqt::miloszqt(QWidget *parent) :
 	connect(this, &miloszqt::dodanyKomunikat,
 			[this](const QString& kom)
 	{ _komunikaty->addItem(kom); _komunikaty->scrollToBottom(); } );
+    _komunikaty->addItem(QString("Naciśnij n, aby rozpocząć nową grę!"));
 
 	QVBoxLayout *lewa = new QVBoxLayout;
 	lewa->addWidget(mapa);
