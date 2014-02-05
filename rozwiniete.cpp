@@ -1,7 +1,7 @@
 #include "rozwiniete.h"
 #include "pole.h"
 #include "gra.h"
-#include <random>
+#include "randengine.h"
 #include <algorithm>
 #include <iostream>
 
@@ -42,51 +42,51 @@ bool Rozwiniete::czlowiek() const
 
 std::uniform_real_distribution<float> Sklepikarz::dist(0.0, 1.0);
 
-Sklepikarz::Sklepikarz(float dostawy, mt19937& gen, queue<string> *const komunikaty,
+Sklepikarz::Sklepikarz(float dostawy, RandEngine& gen, queue<string> *const komunikaty,
 					   int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie), _dostawy(dostawy), _gen(gen)
 { init(); }
 
-Sklepikarz::Sklepikarz(float dostawy, queue<string> *const komunikaty, mt19937& gen)
+Sklepikarz::Sklepikarz(float dostawy, queue<string> *const komunikaty, RandEngine& gen)
 	: Rozwiniete(
 		  komunikaty,
 		  50,	//ruch
-		  std::uniform_int_distribution<int>(50,100)(gen),	//sila (zahartowani ci sklepikarze)
-		  std::uniform_int_distribution<int>(50,100)(gen)	//zdrowie
+		  gen(std::uniform_int_distribution<int>(50,100)),	//sila (zahartowani ci sklepikarze)
+		  gen(std::uniform_int_distribution<int>(50,100))	//zdrowie
 		  ), _dostawy(dostawy), _gen(gen)
 { init(); }
 
-Sklepikarz::Sklepikarz(mt19937& gen, queue<string> *const komunikaty,
+Sklepikarz::Sklepikarz(RandEngine& gen, queue<string> *const komunikaty,
 					   int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie), _dostawy(0.01), _gen(gen)
 { init(); }
 
-Sklepikarz::Sklepikarz(queue<string> *const komunikaty, mt19937& gen)
+Sklepikarz::Sklepikarz(queue<string> *const komunikaty, RandEngine& gen)
 	: Rozwiniete(
 		  komunikaty,
 		  50,	//ruch
-		  std::uniform_int_distribution<int>(50,100)(gen),	//sila (zahartowani ci sklepikarze)
-		  std::uniform_int_distribution<int>(50,100)(gen)	//zdrowie
+		  gen(std::uniform_int_distribution<int>(50,100)),	//sila (zahartowani ci sklepikarze)
+		  gen(std::uniform_int_distribution<int>(50,100))	//zdrowie
 		  ), _dostawy(0.05), _gen(gen) { init(); }
 
 Sklepikarz::~Sklepikarz() { }
 
 void Sklepikarz::init()
 {
-	if(dist(_gen) < 0.5)
+	if(_gen(dist) < 0.5)
 	{
 		_maZbroje = true;
-		_zbroja = dist(_gen);
+		_zbroja = _gen(dist);
 	}
 	else _maZbroje = false;
 
-	if(dist(_gen) < 0.5)
+	if(_gen(dist) < 0.5)
 	{
 		_maBron = true;
-		_bron = dist(_gen);
+		_bron = _gen(dist);
 	}
 	else _maBron = false;
-	if(dist(_gen) < 0.5)
+	if(_gen(dist) < 0.5)
 	{
 		_maPrezent = true;
 	}
@@ -102,17 +102,17 @@ const string& Sklepikarz::przedstaw() const
 
 bool Sklepikarz::ruszSie()
 {
-	if(dist(_gen) < _dostawy)
+	if(_gen(dist) < _dostawy)
 	{
 		_maZbroje = true;
-		_zbroja = dist(_gen);
+		_zbroja = _gen(dist);
 	}
-	if(dist(_gen) < _dostawy)
+	if(_gen(dist) < _dostawy)
 	{
 		_maBron = true;
-		_bron = dist(_gen);
+		_bron = _gen(dist);
 	}
-	if(dist(_gen) < _dostawy)
+	if(_gen(dist) < _dostawy)
 		_maPrezent = true;
 	return false;
 }
@@ -154,12 +154,12 @@ Znachorka::Znachorka(queue<string> *const komunikaty,
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie)
 {}
 
-Znachorka::Znachorka(queue<string> *const komunikaty, mt19937& gen)
+Znachorka::Znachorka(queue<string> *const komunikaty, RandEngine& gen)
 	: Rozwiniete(
 		  komunikaty,
 		  30,	//ruch
-		  std::uniform_int_distribution<int>(30,60)(gen),	//sila (duża, bo truje)
-		  std::uniform_int_distribution<int>(30,60)(gen)	//zdrowie
+		  gen(std::uniform_int_distribution<int>(30,60)),	//sila (duża, bo truje)
+		  gen(std::uniform_int_distribution<int>(30,60))	//zdrowie
 		  ) {}
 
 Znachorka::~Znachorka() {}
@@ -201,12 +201,12 @@ Bard::Bard(const Gra * gra, Pole * skarb, queue<string> *const komunikaty,
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie), _skarb(skarb), _gra(gra)
 {}
 
-Bard::Bard(const Gra * gra, Pole * skarb, queue<string> *const komunikaty, mt19937& gen)
+Bard::Bard(const Gra * gra, Pole * skarb, queue<string> *const komunikaty, RandEngine& gen)
 	: Rozwiniete(
 		  komunikaty,
 		  50,	//ruch
-		  std::uniform_int_distribution<int>(1,100)(gen),	//sila
-		  std::uniform_int_distribution<int>(40,70)(gen)	//zdrowie
+		  gen(std::uniform_int_distribution<int>(1,100)),	//sila
+		  gen(std::uniform_int_distribution<int>(40,70))	//zdrowie
 		  ),
 	  _skarb(skarb), _gra(gra) {}
 
@@ -253,22 +253,22 @@ Poszukiwacz::Poszukiwacz(float zbroja, float bron, queue<string> *const komunika
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie), _zbroja(zbroja), _bron(bron)
 {}
 
-Poszukiwacz::Poszukiwacz(mt19937& gen, queue<string> *const komunikaty,
+Poszukiwacz::Poszukiwacz(RandEngine& gen, queue<string> *const komunikaty,
 						 int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Rozwiniete(komunikaty, ruch, sila, maxZdrowie, zdrowie),
-	  _zbroja(std::uniform_real_distribution<float>(0.0, 1.0)(gen)),
-	  _bron(std::uniform_real_distribution<float>(0.0, 1.0)(gen))
+	  _zbroja(gen(std::uniform_real_distribution<float>(0.0, 1.0))),
+	  _bron(gen(std::uniform_real_distribution<float>(0.0, 1.0)))
 {}
 
-Poszukiwacz::Poszukiwacz(queue<string> *const komunikaty, mt19937& gen)
+Poszukiwacz::Poszukiwacz(queue<string> *const komunikaty, RandEngine& gen)
 	: Rozwiniete(
 		  komunikaty,
 		  100,	//ruch
-		  std::uniform_int_distribution<int>(1,100)(gen),	//sila
-		  std::uniform_int_distribution<int>(1,100)(gen)	//zdrowie
+		  gen(std::uniform_int_distribution<int>(1,100)),	//sila
+		  gen(std::uniform_int_distribution<int>(1,100))	//zdrowie
 		  ),
-	  _zbroja(std::uniform_real_distribution<float>(0.0, 1.0)(gen)),
-	  _bron(std::uniform_real_distribution<float>(0.0, 1.0)(gen))
+	  _zbroja(gen(std::uniform_real_distribution<float>(0.0, 1.0))),
+	  _bron(gen(std::uniform_real_distribution<float>(0.0, 1.0)))
 {}
 
 Poszukiwacz::~Poszukiwacz() {}

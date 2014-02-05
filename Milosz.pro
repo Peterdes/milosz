@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     prymitywne.cpp \
     rozwiniete.cpp \
     stworzenie.cpp \
-    textplansza.cpp
+    textplansza.cpp \
+    randengine.cpp
 
 HEADERS  += miloszqt.h \
     gra.h \
@@ -31,7 +32,8 @@ HEADERS  += miloszqt.h \
     rozwiniete.h \
     stworzenia.h \
     stworzenie.h \
-    textplansza.h
+    textplansza.h \
+    randengine.h
 
 FORMS    +=
 

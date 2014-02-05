@@ -2,13 +2,12 @@
 #define STWORZENIE_H
 #include <queue>
 #include <string>
-#include <random>
+#include "randengine.h"
 #include <array>
 #include "pole.h"
 
 using std::queue;
 using std::string;
-using std::mt19937;
 
 class Stworzenie
 {

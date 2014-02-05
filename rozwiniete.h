@@ -1,7 +1,7 @@
 #ifndef ROZWINIETE_H
 #define ROZWINIETE_H
 #include "stworzenie.h"
-#include <random>
+#include "randengine.h"
 
 class Gra;
 
@@ -22,12 +22,12 @@ protected:
 class Sklepikarz : public Rozwiniete
 {
 public:
-    Sklepikarz(float dostawy, std::mt19937& gen, queue<string> *const komunikaty,
+	Sklepikarz(float dostawy, RandEngine& gen, queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Sklepikarz(float, queue<string> *const, std::mt19937&);
-    Sklepikarz(std::mt19937& gen, queue<string> *const komunikaty,
+	Sklepikarz(float, queue<string> *const, RandEngine&);
+	Sklepikarz(RandEngine& gen, queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Sklepikarz(queue<string> *const, std::mt19937&);
+	Sklepikarz(queue<string> *const, RandEngine&);
     virtual ~Sklepikarz();
 
     const string& przedstaw() const;
@@ -43,7 +43,7 @@ private:
     float _bron;
     bool _maPrezent;
     float _dostawy;	//prawdopodobienstwo dostawy
-    std::mt19937& _gen;
+	RandEngine& _gen;
 	static std::uniform_real_distribution<float> dist;
 
     void init();
@@ -55,7 +55,7 @@ class Znachorka : public Rozwiniete
 public:
     Znachorka(queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Znachorka(queue<string> *const, std::mt19937&);
+	Znachorka(queue<string> *const, RandEngine&);
     virtual ~Znachorka();
 
     const string& przedstaw() const;
@@ -73,7 +73,7 @@ class Bard : public Rozwiniete
 public:
     Bard(const Gra * gra, Pole * skarb, queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Bard(const Gra *, Pole *, queue<string> *const, std::mt19937&);
+	Bard(const Gra *, Pole *, queue<string> *const, RandEngine&);
     virtual ~Bard();
     const string& przedstaw() const;
     bool ruszSie();
@@ -92,9 +92,9 @@ class Poszukiwacz : public Rozwiniete
 public:
     Poszukiwacz(float zbroja, float bron, queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Poszukiwacz(std::mt19937& gen, queue<string> *const komunikaty,
+	Poszukiwacz(RandEngine& gen, queue<string> *const komunikaty,
          int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-    Poszukiwacz(queue<string> *const, std::mt19937&);
+	Poszukiwacz(queue<string> *const, RandEngine&);
     virtual ~Poszukiwacz();
 
     virtual const string& przedstaw() const;

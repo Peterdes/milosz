@@ -32,7 +32,7 @@ Gra::Gra(std::istream& input)
 				_teren[w] = new Pagorki(w);
 				break;
 			case '&':
-				dead = std::uniform_real_distribution<float>(0.0, 1.0)(_gen);
+				dead = _gen(std::uniform_real_distribution<float>(0.0, 1.0));
 				if(dead < 0.05) _teren[w] = new MartweBagna(w);
 				else _teren[w] = new ZwykleBagna(w);
 				break;

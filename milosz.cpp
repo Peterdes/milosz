@@ -1,7 +1,7 @@
 #include "milosz.h"
 #include "pole.h"
 
-Milosz::Milosz(mt19937& gen, queue<string> *const komunikaty)
+Milosz::Milosz(RandEngine& gen, queue<string> *const komunikaty)
 : Poszukiwacz(gen, komunikaty, 100,
 	      30, //sila
 	      100, 50), _prezent(false)
