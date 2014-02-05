@@ -5,7 +5,7 @@
 class Milosz : public Poszukiwacz
 {
 public:
-	Milosz(std::mt19937& gen, queue<string> *const komunikaty);
+	Milosz(RandEngine& gen, queue<string> *const komunikaty);
 	virtual ~Milosz();
 	
 	const string& przedstaw() const;

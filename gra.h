@@ -6,7 +6,7 @@
 #include <queue>
 #include <string>
 #include <map>
-#include <random>
+#include "randengine.h"
 
 enum class Stan { TRWA, KONIEC, WYGRANA, PRZEGRANA };
 
@@ -92,7 +92,7 @@ private:
 	int _xSize, _ySize; //współrzędne
 	vector<Stworzenie *> _stworzenia; //stworzenia w grze
 	queue<string> _komunikaty; //kolejka z komunikatami
-	std::mt19937 _gen;
+	RandEngine _gen;
 	Pole * _skarb;
 	
 	Milosz _milosz; //nasz bohater

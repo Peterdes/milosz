@@ -1,13 +1,13 @@
 #ifndef PRYMITYWNE_H
 #define PRYMITYWNE_H
 #include "stworzenie.h"
-#include <random>
+#include "randengine.h"
 
 class Prymitywne : public Stworzenie
 {
 public:
 	Prymitywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-	Prymitywne(queue<string> *const komunikaty, std::mt19937&);
+	Prymitywne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Prymitywne();
 	virtual bool ruszSie();
 	bool inteligentny() const; //nie, głupi
@@ -20,7 +20,7 @@ class Agresywne : public Prymitywne
 {
 public:
 	Agresywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-	Agresywne(queue<string> *const komunikaty, std::mt19937&);
+	Agresywne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Agresywne();
 	const string& przedstaw() const;
 protected:
@@ -33,7 +33,7 @@ class Wybredne : public Prymitywne
 {
 public:
 	Wybredne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-	Wybredne(queue<string> *const komunikaty, std::mt19937&);
+	Wybredne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Wybredne();
 	const string& przedstaw() const;
 protected:
@@ -46,7 +46,7 @@ class Tchorzliwe : public Prymitywne
 {
 public:
 	Tchorzliwe(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-	Tchorzliwe(queue<string> *const komunikaty, std::mt19937&);
+	Tchorzliwe(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Tchorzliwe();
 	const string& przedstaw() const;
 protected:
@@ -59,7 +59,7 @@ class Neutralne : public Prymitywne
 {
 public:
 	Neutralne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
-	Neutralne(queue<string> *const komunikaty, std::mt19937&);
+	Neutralne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Neutralne();
 	const string& przedstaw() const;
 protected:

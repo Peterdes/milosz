@@ -1,17 +1,17 @@
 #include "prymitywne.h"
 #include "pole.h"
-#include <random>
+#include "randengine.h"
 #include <algorithm>
 
 Prymitywne::Prymitywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Stworzenie(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
-Prymitywne::Prymitywne(queue<string> *const komunikaty, mt19937& gen)
+Prymitywne::Prymitywne(queue<string> *const komunikaty, RandEngine& gen)
 	: Stworzenie(
 		  komunikaty,
 		  70,	//ruch
-		  std::min(std::geometric_distribution<int>(0.04)(gen), 100),	//sila
-		  std::uniform_int_distribution<int>(5, 40)(gen)) {}		//zdrowie
+		  std::min(gen(std::geometric_distribution<int>(0.04)), 100),	//sila
+		  gen(std::uniform_int_distribution<int>(5, 40))) {}		//zdrowie
 
 Prymitywne::~Prymitywne() {}
 
@@ -57,7 +57,7 @@ bool Prymitywne::ruszSie()
 Agresywne::Agresywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
-Agresywne::Agresywne(queue<string> *const komunikaty, mt19937& gen)
+Agresywne::Agresywne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
 Agresywne::~Agresywne() {}
@@ -80,7 +80,7 @@ bool Agresywne::ruszSie(Kierunek kier)
 Wybredne::Wybredne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
-Wybredne::Wybredne(queue<string> *const komunikaty, mt19937& gen)
+Wybredne::Wybredne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
 Wybredne::~Wybredne() {}
@@ -107,7 +107,7 @@ bool Wybredne::ruszSie(Kierunek kier)
 Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
-Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, mt19937& gen)
+Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
 Tchorzliwe::~Tchorzliwe() {}
@@ -135,7 +135,7 @@ bool Tchorzliwe::ruszSie(Kierunek kier)
 Neutralne::Neutralne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
 	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
-Neutralne::Neutralne(queue<string> *const komunikaty, mt19937& gen)
+Neutralne::Neutralne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
 Neutralne::~Neutralne() {}
