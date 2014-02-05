@@ -14,7 +14,7 @@ TextPlansza::TextPlansza(QWidget *parent) :
 {
 	setFontFamily("monospace");
 	setLineWrapMode(QTextEdit::NoWrap);
-    zoomIn(11);
+	zoomIn(8);
 }
 
 tuple<char, QColor> pokaz(const Pole& pole)

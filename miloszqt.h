@@ -18,6 +18,7 @@ public:
 
 	void zaladuj();
 	void ustawZrodlo(const QString&);
+	void otworzPlik();
 
 	void odswiez();
 

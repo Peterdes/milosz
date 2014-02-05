@@ -9,7 +9,9 @@
 #include <QAction>
 #include <QListWidget>
 #include <QLabel>
+#include <QFileDialog>
 #include <fstream>
+#include <QApplication>
 #include "textplansza.h"
 
 miloszqt::miloszqt(QWidget *parent) :
@@ -49,8 +51,19 @@ miloszqt::miloszqt(QWidget *parent) :
 	connect(nowaAct, &QAction::triggered, this, &miloszqt::zaladuj);
 	nowaAct->setShortcuts({Qt::Key_N});
 
+	QAction *otworzAct = new QAction("&Otwórz planszę", this);
+	connect(otworzAct, &QAction::triggered, this, &miloszqt::otworzPlik);
+	otworzAct->setShortcuts({Qt::CTRL + Qt::Key_O});
+
+	QAction *zakonczAct = new QAction("&Zakończ", this);
+	connect(zakonczAct, &QAction::triggered, qApp, &QApplication::quit);
+	zakonczAct->setShortcuts({Qt::CTRL + Qt::Key_Q});
+
 	QMenu *plikMenu = menuBar()->addMenu("&Plik");
 	plikMenu->addAction(nowaAct);
+	plikMenu->addAction(otworzAct);
+	plikMenu->addSeparator();
+	plikMenu->addAction(zakonczAct);
 
 	QMenu *polecenieMenu = menuBar()->addMenu("&Polecenie");
 	polecenieMenu->addAction(turaAct);
@@ -117,19 +130,19 @@ miloszqt::miloszqt(QWidget *parent) :
 	statystyki->addWidget(prezentLabel,4,0);
 	statystyki->addWidget(prezent,4,1);
 
-	QPushButton *goraButton = new QPushButton("g");
+	QPushButton *goraButton = new QPushButton("G");
 	connect(goraButton, &QPushButton::clicked, goraAct, &QAction::trigger);
 
-	QPushButton *dolButton = new QPushButton("d");
+	QPushButton *dolButton = new QPushButton("D");
 	connect(dolButton, &QPushButton::clicked, dolAct, &QAction::trigger);
 
-	QPushButton *lewoButton = new QPushButton("l");
+	QPushButton *lewoButton = new QPushButton("L");
 	connect(lewoButton, &QPushButton::clicked, lewoAct, &QAction::trigger);
 
-	QPushButton *prawoButton = new QPushButton("p");
+	QPushButton *prawoButton = new QPushButton("P");
 	connect(prawoButton, &QPushButton::clicked, prawoAct, &QAction::trigger);
 
-	QPushButton *turaButton = new QPushButton("x");
+	QPushButton *turaButton = new QPushButton("X");
 	connect(turaButton, &QPushButton::clicked, turaAct, &QAction::trigger);
 
 	QGridLayout *sterowanie = new QGridLayout;
@@ -174,6 +187,16 @@ void miloszqt::tura()
 void miloszqt::ustawZrodlo(const QString& plik)
 {
 	_plik = plik;
+}
+
+void miloszqt::otworzPlik()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Otwórz plik"), QDir::currentPath());
+	if(!fileName.isEmpty())
+	{
+		ustawZrodlo(fileName);
+		zaladuj();
+	}
 }
 
 void miloszqt::zaladuj()

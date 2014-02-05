@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	miloszqt w;
     if(argc > 1)
         w.ustawZrodlo(argv[1]);
-	w.show();
+	w.showMaximized();
 
 	return a.exec();
 }
