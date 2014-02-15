@@ -99,7 +99,7 @@ void Stworzenie::oberwij(int obrazenia)
 
 int Stworzenie::obrazenia(Stworzenie * ofiara)
 {
-	return int(float(_sila) * float(_pktyZdrowia) / 100.0
+	return int(float(0.5) + float(_sila) * float(_pktyZdrowia) / 100.0
 			   * (1.0 + bron()) * (1.0 - ofiara->zbroja()));
 }
 

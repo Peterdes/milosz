@@ -2,9 +2,12 @@
 #include "pole.h"
 
 Milosz::Milosz(RandEngine& gen, queue<string> *const komunikaty)
-: Poszukiwacz(gen, komunikaty, 100,
-	      30, //sila
-	      100, 50), _prezent(false)
+: Poszukiwacz(komunikaty,
+		100, //punkty ruchu
+		50, //siła
+		100, //maksymalne zdrowie
+		50, //zdrowie
+		gen), _prezent(false)
 {}
 
 Milosz::~Milosz() {}
@@ -30,12 +33,12 @@ bool Milosz::ruszSie(Kierunek kier)
 	
 	if(_pktyRuchu < docelowe->ruch())
 	{
-		_komunikaty->push(string("Za malo punktow ruchu."));
+		_komunikaty->push(string("Za mało punktów ruchu."));
 		return false;
 	}
 	if(! docelowe->dostepne())
 	{
-		_komunikaty->push(string("Nie mozesz tam wejsc."));
+		_komunikaty->push(string("Nie możesz tam wejść."));
 		return false;
 	}
 	

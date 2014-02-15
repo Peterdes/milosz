@@ -19,7 +19,6 @@ protected:
 class Agresywne : public Prymitywne
 {
 public:
-	Agresywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
 	Agresywne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Agresywne();
 	const string& przedstaw() const;
@@ -32,7 +31,6 @@ private:
 class Wybredne : public Prymitywne
 {
 public:
-	Wybredne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
 	Wybredne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Wybredne();
 	const string& przedstaw() const;
@@ -45,7 +43,6 @@ private:
 class Tchorzliwe : public Prymitywne
 {
 public:
-	Tchorzliwe(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
 	Tchorzliwe(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Tchorzliwe();
 	const string& przedstaw() const;
@@ -58,7 +55,6 @@ private:
 class Neutralne : public Prymitywne
 {
 public:
-	Neutralne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie = 0);
 	Neutralne(queue<string> *const komunikaty, RandEngine&);
 	virtual ~Neutralne();
 	const string& przedstaw() const;

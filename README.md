@@ -1,6 +1,4 @@
-Dunnoui - pierwszy interfejs do gry.
+Wymagania do kompilacji: C++11, Qt5.
 
-Komendy trzeba potwierdzać enterem.
-
-Komendy jak w specyfikacji, z jednym wyjątkiem: turę można skończyć komendą 'n', której nie ma w specyfikacji.
+Najprościej zainstalować Qt Creatora, załadować projekt i skompilować.
 

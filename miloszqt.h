@@ -12,6 +12,8 @@ class miloszqt : public QMainWindow
 public:
 	explicit miloszqt(QWidget *parent = 0);
 	~miloszqt();
+	miloszqt(const miloszqt&) = delete;
+	miloszqt& operator=(const miloszqt&) = delete;
 
 	void idz(Kierunek kier);
 	void tura();
@@ -25,6 +27,7 @@ public:
 signals:
 	void zycieChanged(int zycie,int max);
 	void ruchChanged(int ruch,int max);
+	void silaChanged(int sila);
 	void zbrojaChanged(float zbroja);
 	void bronChanged(float bron);
 	void prezentChanged(bool prezent);
@@ -34,7 +37,6 @@ signals:
 private:
 	Gra * _gra;
 	QString _plik;
-	QListWidget *_komunikaty;
 	void powitaj();
 };
 

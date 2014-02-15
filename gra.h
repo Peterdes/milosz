@@ -8,7 +8,7 @@
 #include <map>
 #include "randengine.h"
 
-enum class Stan { TRWA, KONIEC, WYGRANA, PRZEGRANA };
+enum class Stan { TRWA, KONIEC, WYGRANA, PRZEGRANA, BLAD };
 
 using std::vector;
 using std::queue;
@@ -28,6 +28,11 @@ public:
 	 * Destruktor
 	 */
 	~Gra();
+	/*
+	 * Kopiowania nie obsługujemy
+	 */
+	Gra(const Gra&) = delete;
+	Gra& operator=(const Gra&) = delete;
 	/*
 	 * Zwraca stan gry.
 	 */
@@ -84,11 +89,8 @@ public:
 	Stworzenie const * stworzenie(int n) const;
 	
 private:
-	Gra(const Gra&); //nie kopiujemy (na razie)
-	Gra& operator=(const Gra&); //nie kopiujemy (na razie)
-
 	Stan _stanGry; //stan gry
-	Pole* *_teren; //pola na planszy
+	Pole* *_teren; //pola na planszy -> 1-wymiarowa tablica wskaźników na pola
 	int _xSize, _ySize; //współrzędne
 	vector<Stworzenie *> _stworzenia; //stworzenia w grze
 	queue<string> _komunikaty; //kolejka z komunikatami

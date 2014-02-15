@@ -12,6 +12,8 @@
 #include <QFileDialog>
 #include <fstream>
 #include <QApplication>
+#include <vector>
+#include <tuple>
 #include "textplansza.h"
 
 miloszqt::miloszqt(QWidget *parent) :
@@ -19,6 +21,11 @@ miloszqt::miloszqt(QWidget *parent) :
 {
 	_gra = nullptr;
 
+	/*
+	 *
+	 * Akcje
+	 *
+	 */
 	QAction *goraAct = new QAction(QString("&Góra"), this);
 	connect(goraAct, &QAction::triggered,
 			[this](bool)
@@ -53,12 +60,17 @@ miloszqt::miloszqt(QWidget *parent) :
 
 	QAction *otworzAct = new QAction("&Otwórz planszę", this);
 	connect(otworzAct, &QAction::triggered, this, &miloszqt::otworzPlik);
-	otworzAct->setShortcuts({Qt::CTRL + Qt::Key_O});
+	otworzAct->setShortcuts({Qt::Key_O});
 
 	QAction *zakonczAct = new QAction("&Zakończ", this);
 	connect(zakonczAct, &QAction::triggered, qApp, &QApplication::quit);
-	zakonczAct->setShortcuts({Qt::CTRL + Qt::Key_Q});
+	zakonczAct->setShortcuts({Qt::Key_Q, Qt::Key_Z});
 
+	/*
+	 *
+	 * Pasek menu
+	 *
+	 */
 	QMenu *plikMenu = menuBar()->addMenu("&Plik");
 	plikMenu->addAction(nowaAct);
 	plikMenu->addAction(otworzAct);
@@ -73,103 +85,150 @@ miloszqt::miloszqt(QWidget *parent) :
 	polecenieMenu->addAction(lewoAct);
 	polecenieMenu->addAction(prawoAct);
 
-	TextPlansza *mapa = new TextPlansza;
+	/***
+	 *
+	 * Lewa strona widoku
+	 *
+	 ***/
+
+	/*
+	 * Mapa
+	 */
+	TextPlansza *mapa = new TextPlansza(this);
 	connect(this, &miloszqt::planszaChanged, mapa, &TextPlansza::pokazPlansze);
 
-	_komunikaty = new QListWidget;
-	_komunikaty->setMaximumHeight(100);
+	/*
+	 * Komunikaty pod mapą
+	 */
+	QListWidget *komunikaty = new QListWidget(this);
+	komunikaty->setMaximumHeight(100);
 	connect(this, &miloszqt::dodanyKomunikat,
-			[this](const QString& kom)
-	{ _komunikaty->addItem(kom); _komunikaty->scrollToBottom(); } );
-    _komunikaty->addItem(QString("Naciśnij n, aby rozpocząć nową grę!"));
+			[komunikaty](const QString& kom)
+	{ komunikaty->addItem(kom); komunikaty->scrollToBottom(); } );
 
-	QVBoxLayout *lewa = new QVBoxLayout;
+	QVBoxLayout *lewa = new QVBoxLayout();
 	lewa->addWidget(mapa);
-	lewa->addWidget(_komunikaty);
+	lewa->addWidget(komunikaty);
 
-	QLabel *zycieLabel = new QLabel("Życie:");
-	QLabel *zycie = new QLabel("0/0");
+	/***
+	 *
+	 * Prawa strona widoku
+	 *
+	 ***/
+
+	/*
+	 * Przybliżanie i oddalanie
+	 */
+	QPushButton *przyblizButton = new QPushButton("Przybliż", this);
+	connect(przyblizButton, &QPushButton::clicked, mapa, &TextPlansza::przybliz);
+
+	QPushButton *oddalButton = new QPushButton("Oddal", this);
+	connect(oddalButton, &QPushButton::clicked, mapa, &TextPlansza::oddal);
+
+	/*
+	 * Statystyki gry
+	 */
+	std::vector<std::tuple<QLabel*,QLabel*>> stats;
+
+	QLabel *zycieLabel = new QLabel("Zdrowie:", this);
+	QLabel *zycie = new QLabel("0/0", this);
 	connect(this, &miloszqt::zycieChanged,
 			[zycie](int zyc,int max)
 	{ zycie->setText(QString::number(zyc) + "/" + QString::number(max)); } );
+	stats.push_back(std::make_tuple(zycieLabel,zycie));
 
-	QLabel *ruchLabel = new QLabel("Ruch:");
-	QLabel *ruch = new QLabel("0/0");
+	QLabel *ruchLabel = new QLabel("Ruch:", this);
+	QLabel *ruch = new QLabel("0/0", this);
 	connect(this, &miloszqt::ruchChanged,
 			[ruch](int r,int max)
 	{ ruch->setText(QString::number(r) + "/" + QString::number(max)); } );
+	stats.push_back(std::make_tuple(ruchLabel,ruch));
 
-	QLabel *zbrojaLabel = new QLabel("Zbroja:");
-	QLabel *zbroja = new QLabel("0.00");
+	QLabel *silaLabel = new QLabel("Siła:", this);
+	QLabel *sila = new QLabel("0", this);
+	connect(this, &miloszqt::silaChanged,
+			[sila](int s)
+	{ sila->setText(QString::number(s)); } );
+	stats.push_back(std::make_tuple(silaLabel,sila));
+
+	QLabel *zbrojaLabel = new QLabel("Zbroja:", this);
+	QLabel *zbroja = new QLabel("0.00", this);
 	connect(this, &miloszqt::zbrojaChanged,
 			[zbroja](float z)
 	{ zbroja->setText(QString::number(z, 'g', 2)); });
+	stats.push_back(std::make_tuple(zbrojaLabel,zbroja));
 
-	QLabel *bronLabel = new QLabel("Broń:");
-	QLabel *bron = new QLabel("0.00");
+	QLabel *bronLabel = new QLabel("Broń:", this);
+	QLabel *bron = new QLabel("0.00", this);
 	connect(this, &miloszqt::bronChanged,
 			[bron](float z)
 	{ bron->setText(QString::number(z, 'g', 2)); });
+	stats.push_back(std::make_tuple(bronLabel,bron));
 
-	QLabel *prezentLabel = new QLabel("Prezent:");
-	QLabel *prezent = new QLabel("nie");
+	QLabel *prezentLabel = new QLabel("Prezent:", this);
+	QLabel *prezent = new QLabel("nie", this);
 	connect(this, &miloszqt::prezentChanged,
 			[prezent](bool p)
 	{ if(p) prezent->setText("tak");
 		else prezent->setText("nie"); });
+	stats.push_back(std::make_tuple(prezentLabel,prezent));
 
-	QGridLayout *statystyki = new QGridLayout;
-	statystyki->addWidget(zycieLabel,0,0);
-	statystyki->addWidget(zycie,0,1);
-	statystyki->addWidget(ruchLabel,1,0);
-	statystyki->addWidget(ruch,1,1);
-	statystyki->addWidget(zbrojaLabel,2,0);
-	statystyki->addWidget(zbroja,2,1);
-	statystyki->addWidget(bronLabel,3,0);
-	statystyki->addWidget(bron,3,1);
-	statystyki->addWidget(prezentLabel,4,0);
-	statystyki->addWidget(prezent,4,1);
+	QGridLayout *statystyki = new QGridLayout();
 
-	QPushButton *goraButton = new QPushButton("G");
+	for(int i = 0; i < int(stats.size()); ++i)
+	{
+		statystyki->addWidget(std::get<0>(stats[i]),i,0);
+		statystyki->addWidget(std::get<1>(stats[i]),i,1);
+	}
+
+	/*
+	 * Sterowanie myszką
+	 */
+	QPushButton *goraButton = new QPushButton("G",this);
 	connect(goraButton, &QPushButton::clicked, goraAct, &QAction::trigger);
 
-	QPushButton *dolButton = new QPushButton("D");
+	QPushButton *dolButton = new QPushButton("D",this);
 	connect(dolButton, &QPushButton::clicked, dolAct, &QAction::trigger);
 
-	QPushButton *lewoButton = new QPushButton("L");
+	QPushButton *lewoButton = new QPushButton("L",this);
 	connect(lewoButton, &QPushButton::clicked, lewoAct, &QAction::trigger);
 
-	QPushButton *prawoButton = new QPushButton("P");
+	QPushButton *prawoButton = new QPushButton("P",this);
 	connect(prawoButton, &QPushButton::clicked, prawoAct, &QAction::trigger);
 
-	QPushButton *turaButton = new QPushButton("X");
+	QPushButton *turaButton = new QPushButton("X",this);
 	connect(turaButton, &QPushButton::clicked, turaAct, &QAction::trigger);
 
-	QGridLayout *sterowanie = new QGridLayout;
+	QGridLayout *sterowanie = new QGridLayout();
 	sterowanie->addWidget(goraButton,0,1);
 	sterowanie->addWidget(dolButton,2,1);
 	sterowanie->addWidget(lewoButton,1,0);
 	sterowanie->addWidget(prawoButton,1,2);
 	sterowanie->addWidget(turaButton,1,1);
 
-	QVBoxLayout *prawa = new QVBoxLayout;
+	QVBoxLayout *prawa = new QVBoxLayout();
+	prawa->addWidget(przyblizButton);
+	prawa->addWidget(oddalButton);
 	prawa->addLayout(statystyki);
 	prawa->addLayout(sterowanie);
 
-	QHBoxLayout *glownyLayout = new QHBoxLayout;
+	/***
+	 *
+	 * Cały widok
+	 *
+	 ***/
+	QWidget *glownyWidget = new QWidget(this);
+
+	QHBoxLayout *glownyLayout = new QHBoxLayout(glownyWidget);
 	glownyLayout->addLayout(lewa);
 	glownyLayout->addLayout(prawa);
 
-	QWidget *glownyWidget = new QWidget();
-	glownyWidget->setLayout(glownyLayout);
-
 	setCentralWidget(glownyWidget);
-
-	zaladuj();
 }
 
 miloszqt::~miloszqt()
 {
+	delete _gra;
 }
 
 void miloszqt::idz(Kierunek kier)
@@ -206,7 +265,16 @@ void miloszqt::zaladuj()
 
 	std::fstream wejscie(_plik.toStdString());
 	_gra = new Gra(wejscie);
-	powitaj();
+	if(_gra->stan() == Stan::BLAD)
+	{
+		delete _gra;
+		_gra = nullptr;
+		dodanyKomunikat("Nie udało się wczytać pliku " + _plik + ".");
+	}
+	else
+	{
+		powitaj();
+	}
 	odswiez();
 }
 
@@ -217,6 +285,7 @@ void miloszqt::odswiez()
 
 	zycieChanged(_gra->milosz().zdrowie(), _gra->milosz().maxZdrowie());
 	ruchChanged(_gra->milosz().ruch(), _gra->milosz().maxRuch());
+	silaChanged(_gra->milosz().sila());
 	zbrojaChanged(_gra->milosz().zbroja());
 	bronChanged(_gra->milosz().bron());
 	prezentChanged(_gra->milosz().prezent());
@@ -228,5 +297,5 @@ void miloszqt::odswiez()
 
 void miloszqt::powitaj()
 {
-	_komunikaty->addItem("Sterowanie jak w specyfikacji, ale też strzałkami, spacja to nowa tura, n to nowa gra.");
+	dodanyKomunikat("Sterowanie jak w specyfikacji, ale też strzałkami, spacja to nowa tura, n to nowa gra.");
 }

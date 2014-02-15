@@ -12,6 +12,7 @@ private:
 	std::mt19937 engine;
 public:
 	RandEngine();
+	~RandEngine();
 	RandEngine(const RandEngine&) = delete;
 	RandEngine& operator=(const RandEngine&) = delete;
 	/*

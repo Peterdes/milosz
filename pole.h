@@ -13,6 +13,8 @@ class Pole
 public:
 	Pole(int); //konstruktor
 	virtual ~Pole(); //destruktor
+	Pole(const Pole&) = delete; //nie chcemy
+	Pole& operator=(const Pole&) = delete; //nie chcemy
 	/*
 	 * Informuje o rodzaju pola
 	 */
@@ -72,8 +74,6 @@ public:
 	 */
 	void ustawSasiada(Kierunek, Pole *);
 private:
-	Pole(const Pole&);
-	Pole& operator=(Pole& inne); //nie chcemy
 
 	int _w; //współrzędne
 	Pole * _sasiad[4];
@@ -85,6 +85,9 @@ class PoleDostepne : public Pole
 public:
 	PoleDostepne(int, Stworzenie * = nullptr);
 	virtual ~PoleDostepne();
+	PoleDostepne(const PoleDostepne&) = delete;
+	PoleDostepne& operator=(const PoleDostepne&) = delete;
+
 	void czysc();
 	bool puste() const;
 	bool dostepne() const;
@@ -101,6 +104,9 @@ class PoleNiedostepne : public Pole
 public:
 	PoleNiedostepne(int);
 	virtual ~PoleNiedostepne();
+	PoleNiedostepne(const PoleNiedostepne&) = delete;
+	PoleNiedostepne& operator=(const PoleNiedostepne&) = delete;
+
 	void czysc();
 	bool puste() const;
 	bool dostepne() const;
@@ -117,6 +123,9 @@ class Skaly : public PoleNiedostepne
 public:
     Skaly(int);
     virtual ~Skaly();
+	Skaly (const Skaly&) = delete;
+	Skaly& operator=(const Skaly&) = delete;
+
 	const string& przedstaw() const;
     static const string wyglad;
 };
@@ -126,6 +135,9 @@ class Trawy : public PoleDostepne
 public:
     Trawy(int,Stworzenie * = nullptr);
     virtual ~Trawy();
+	Trawy(const Trawy&) = delete;
+	Trawy& operator=(const Trawy&) = delete;
+
     const string& przedstaw() const;
 	int ruch() const;
     static const string wyglad;
@@ -136,6 +148,9 @@ class Drogi : public PoleDostepne
 public:
     Drogi(int,Stworzenie * = nullptr);
     virtual ~Drogi();
+	Drogi(const Drogi&) = delete;
+	Drogi& operator=(const Drogi&) = delete;
+
     const string& przedstaw() const;
 	int ruch() const;
     static const string wyglad;
@@ -146,6 +161,9 @@ class Pagorki : public PoleDostepne
 public:
     Pagorki(int,Stworzenie * = nullptr);
     virtual ~Pagorki();
+	Pagorki(const Pagorki&) = delete;
+	Pagorki& operator=(const Pagorki&) = delete;
+
     virtual const string& przedstaw() const;
 	virtual int ruch() const;
     static const string wyglad;
@@ -156,6 +174,9 @@ class Jaskinie : public Pagorki
 public:
     Jaskinie(int,Stworzenie * = nullptr);
     virtual ~Jaskinie();
+	Jaskinie(const Jaskinie&) = delete;
+	Jaskinie& operator=(const Jaskinie&) = delete;
+
 	virtual const string& przedstaw() const;
     static const string wyglad;
 };
@@ -165,6 +186,9 @@ class Skarb : public Jaskinie
 public:
 	Skarb(int);
 	virtual ~Skarb();
+	Skarb(const Skarb&) = delete;
+	Skarb& operator=(const Skarb&) = delete;
+
 	const string& przedstaw() const;
 	bool pokazSkarb();
 	bool skarb() const;
@@ -179,6 +203,9 @@ class Rzeki : public PoleDostepne
 public:
     Rzeki(int,Stworzenie * = nullptr);
     virtual ~Rzeki();
+	Rzeki(const Rzeki&) = delete;
+	Rzeki& operator=(const Rzeki&) = delete;
+
     const string& przedstaw() const;
     int ruch() const;
 	int obrazenia() const;
@@ -190,6 +217,9 @@ class Bagna : public PoleDostepne
 public:
     Bagna(int,Stworzenie * = nullptr);
     virtual ~Bagna();
+	Bagna(const Bagna&) = delete;
+	Bagna& operator=(const Bagna&) = delete;
+
     const string& przedstaw() const;
 	int ruch() const;
     static const string wyglad;
@@ -200,6 +230,9 @@ class MartweBagna : public Bagna
 public:
     MartweBagna(int,Stworzenie * = nullptr);
     virtual ~MartweBagna();
+	MartweBagna(const MartweBagna&) = delete;
+	MartweBagna& operator=(const MartweBagna&) = delete;
+
     /*
     * Prymitywny chwyt: zwracam obrażenia przekraczające życie
     * dowolnej istniejącej jednostki
@@ -212,6 +245,8 @@ class ZwykleBagna : public Bagna
 public:
     ZwykleBagna(int,Stworzenie * = nullptr);
     virtual ~ZwykleBagna();
+	ZwykleBagna(const ZwykleBagna&) = delete;
+	ZwykleBagna& operator=(const ZwykleBagna&) = delete;
 };
 
 

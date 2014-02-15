@@ -14,8 +14,12 @@ TextPlansza::TextPlansza(QWidget *parent) :
 {
 	setFontFamily("monospace");
 	setLineWrapMode(QTextEdit::NoWrap);
-	zoomIn(8);
+	_zoom = 8;
+	zoomIn(_zoom);
 }
+
+TextPlansza::~TextPlansza()
+{}
 
 tuple<char, QColor> pokaz(const Pole& pole)
 {
@@ -47,9 +51,9 @@ tuple<char, QColor> pokaz(const Pole& pole)
 
 void TextPlansza::pokazPlansze(Gra const * gra)
 {
+	clear();
 	int w = 0;
 	const Pole * cel;
-	clear();
 	for(int i = 0; i < gra->yRozmiar(); ++i)
 	{
 		for(int j = 0; j < gra->xRozmiar(); ++j)
@@ -62,4 +66,14 @@ void TextPlansza::pokazPlansze(Gra const * gra)
 		}
 		insertPlainText("\n");
 	}
+}
+
+void TextPlansza::przybliz()
+{
+	zoomIn(1);
+}
+
+void TextPlansza::oddal()
+{
+	zoomOut(1);
 }

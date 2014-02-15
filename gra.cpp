@@ -8,6 +8,13 @@ Gra::Gra(std::istream& input)
 {
 	int n=0, m=0;
 	input >> n >> m;
+	if( n < 1 || n > 1000 || m < 1 || m > 1000)
+	{
+		_stanGry = Stan::BLAD;
+		_xSize = _ySize = 0;
+		_teren = new Pole*[0];
+		return;
+	}
 	_ySize = n + 2;
 	_xSize = m + 2;
 	_teren = new Pole*[_ySize * _xSize];
@@ -52,7 +59,8 @@ Gra::Gra(std::istream& input)
 				_teren[w] = new Jaskinie(w);
 				break;
 			default:
-				assert(false);
+				_stanGry = Stan::BLAD;
+				return;
 			}
 			++w;
 		}
@@ -110,11 +118,22 @@ Gra::Gra(std::istream& input)
 			stw = new Neutralne(&_komunikaty, _gen);
 			break;
 		default:
-			assert( false );
+			_stanGry = Stan::BLAD;
+			return;
 		}
 		if(stw != &_milosz)
 			_stworzenia.push_back(stw);
-		assert( stw->postaw(pole) );
+
+		if(stw->pole() != nullptr)
+		{
+			_stanGry = Stan::BLAD;
+			return;
+		}
+		if(! stw->postaw(pole))
+		{
+			_stanGry = Stan::BLAD;
+			return;
+		}
 	}
 }
 
@@ -171,6 +190,10 @@ void Gra::zakoncz()
 
 Pole const * Gra::pole(int w) const
 {
+	if(w < 0 || w >= _xSize * _ySize)
+	{
+		return nullptr;
+	}
 	return _teren[w];
 }
 

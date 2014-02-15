@@ -7,6 +7,8 @@ class Milosz : public Poszukiwacz
 public:
 	Milosz(RandEngine& gen, queue<string> *const komunikaty);
 	virtual ~Milosz();
+	Milosz(const Milosz&) = delete;
+	Milosz& operator=(const Milosz&) = delete;
 	
 	const string& przedstaw() const;
 	bool ruszSie(); //nic nie rób

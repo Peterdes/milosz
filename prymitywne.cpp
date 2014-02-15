@@ -9,7 +9,7 @@ Prymitywne::Prymitywne(queue<string> *const komunikaty, int ruch, int sila, int 
 Prymitywne::Prymitywne(queue<string> *const komunikaty, RandEngine& gen)
 	: Stworzenie(
 		  komunikaty,
-		  70,	//ruch
+		  70,	//liczba punktów ruchu stworzenia prymitywnego
 		  std::min(gen(std::geometric_distribution<int>(0.04)), 100),	//sila
 		  gen(std::uniform_int_distribution<int>(5, 40))) {}		//zdrowie
 
@@ -54,9 +54,6 @@ bool Prymitywne::ruszSie()
 	return false;
 }
 
-Agresywne::Agresywne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
-
 Agresywne::Agresywne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
@@ -76,9 +73,6 @@ bool Agresywne::ruszSie(Kierunek kier)
 		return walcz(docelowe->stworzenie());
 	else return wejdz(docelowe);
 }
-
-Wybredne::Wybredne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Wybredne::Wybredne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
@@ -104,9 +98,6 @@ bool Wybredne::ruszSie(Kierunek kier)
 	else return wejdz(docelowe);
 }
 
-Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
-
 Tchorzliwe::Tchorzliwe(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}
 
@@ -131,9 +122,6 @@ bool Tchorzliwe::ruszSie(Kierunek kier)
 	}
 	else return wejdz(docelowe);
 }
-
-Neutralne::Neutralne(queue<string> *const komunikaty, int ruch, int sila, int maxZdrowie, int zdrowie)
-	: Prymitywne(komunikaty, ruch, sila, maxZdrowie, zdrowie) {}
 
 Neutralne::Neutralne(queue<string> *const komunikaty, RandEngine& gen)
 	: Prymitywne(komunikaty, gen) {}

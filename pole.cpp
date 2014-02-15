@@ -1,6 +1,49 @@
 #include "pole.h"
 
 /*
+ * Liczba punktów ruchu potrzebna na przejście po różnych rodzajach terenu
+ */
+
+int Trawy::ruch() const
+{
+	return 30;
+}
+
+int Drogi::ruch() const
+{
+	return 20;
+}
+
+int Pagorki::ruch() const
+{
+	return 50;
+}
+
+int Rzeki::ruch() const
+{
+	return 100;
+}
+
+int Bagna::ruch() const
+{
+	return 70;
+}
+
+/*
+ * Obrażenia zadawane przez różne rodzaje terenu
+ */
+
+int Rzeki::obrazenia() const
+{
+	return 5;
+}
+
+int MartweBagna::obrazenia() const
+{
+	return 1000000;  //zabójcze dla dowolnego stworzenia w grze
+}
+
+/*
  * Pole
  */
 
@@ -195,11 +238,6 @@ const string& Trawy::przedstaw() const
 	return wyglad;
 }
 
-int Trawy::ruch() const
-{
-	return 30;
-}
-
 Drogi::Drogi(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
 
 Drogi::~Drogi() {};
@@ -209,11 +247,6 @@ const string Drogi::wyglad("Drogi");
 const string& Drogi::przedstaw() const
 {
 	return wyglad;
-}
-
-int Drogi::ruch() const
-{
-	return 20;
 }
 
 Pagorki::Pagorki(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -227,11 +260,6 @@ const string& Pagorki::przedstaw() const
 	return wyglad;
 }
 
-int Pagorki::ruch() const
-{
-	return 50;
-}
-
 Rzeki::Rzeki(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
 
 Rzeki::~Rzeki() {};
@@ -241,16 +269,6 @@ const string Rzeki::wyglad("Rzeki");
 const string& Rzeki::przedstaw() const
 {
 	return wyglad;
-}
-
-int Rzeki::obrazenia() const
-{
-	return 5;
-}
-
-int Rzeki::ruch() const
-{
-	return 100;
 }
 
 Bagna::Bagna(int w,Stworzenie * stw) : PoleDostepne(w, stw) {}
@@ -264,19 +282,9 @@ const string& Bagna::przedstaw() const
 	return wyglad;
 }
 
-int Bagna::ruch() const
-{
-	return 70;
-}
-
 MartweBagna::MartweBagna(int w,Stworzenie * stw) : Bagna(w, stw) {}
 
 MartweBagna::~MartweBagna() {};
-
-int MartweBagna::obrazenia() const
-{
-	return 1000000;
-}
 
 ZwykleBagna::ZwykleBagna(int w,Stworzenie * stw) : Bagna(w, stw) {}
 
