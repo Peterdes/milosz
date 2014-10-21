@@ -1,4 +1,3 @@
-Wymagania do kompilacji: C++11, Qt5.
+Requirements: C++11, Qt5.
 
-Najprościej zainstalować Qt Creatora, załadować projekt i skompilować.
-
+Compilation may be achieved with Qt Creator.
