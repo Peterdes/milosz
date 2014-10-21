@@ -114,21 +114,21 @@ void Sklepikarz::rozmawiaj(Stworzenie * inne)
 		_maZbroje = false;
 		if(inne->milosz())
 			_komunikaty->push( string(
-								   "Otrzymałeś zbroję " + std::to_string(_zbroja) + "!"));
+								   "You got an armor of " + std::to_string(_zbroja) + "!"));
 	}
 	if(_maBron && inne->wezBron(_bron))
 	{
 		_maBron = false;
 		if(inne->milosz())
 			_komunikaty->push( string(
-								   "Otrzymałeś broń " + std::to_string(_bron) + "!"));
+								   "You got a weapon of " + std::to_string(_bron) + "!"));
 	}
 	if(_maPrezent && inne->wezPrezent())
 	{
 		_maPrezent = false;
 		if(inne->milosz())
 			_komunikaty->push( string(
-								   "Otrzymałeś prezent!"));
+								   "You got a present!"));
 	}
 }
 
@@ -168,12 +168,12 @@ void Znachorka::rozmawiaj(Stworzenie * inne)
 		inne->ulecz();
 		if(inne->milosz())
 		{
-			_komunikaty->push(string("Dzięki, tu są ziółka."));
-			_komunikaty->push(string("Zostałeś uleczony!"));
+			_komunikaty->push(string("Thanks for the present, take these herbs."));
+			_komunikaty->push(string("You are fully healed!"));
 		}
 	}
 	else if(inne->milosz())
-		_komunikaty->push(string("Nie ma nic za darmo!"));
+		_komunikaty->push(string("Not for free!"));
 }
 
 
@@ -211,10 +211,10 @@ void Bard::rozmawiaj(Stworzenie * inne)
 			int x = _gra->x(*_skarb);
 			int y = _gra->y(*_skarb);
 			_komunikaty->push( string(
-								   "Lalala skaaarb " + std::to_string(x)
+								   "Lalalala searching lalalala for a treasure lala " + std::to_string(x)
 								   + ", " + std::to_string(y)) );
 		}
-		else _komunikaty->push(string("Bez prezentu nie ma koncertu."));
+		else _komunikaty->push(string("The bard does not seem to have any motivation to sing."));
 	}
 }
 
@@ -274,8 +274,8 @@ bool Poszukiwacz::ruszSie()
 
 		if(pole()->skarb())
 		{
-			_komunikaty->push(string("Poszukiwacz znalazł skarb!"));
-			_komunikaty->push(string("Przegrana!"));
+			_komunikaty->push(string("Other seeker else has found the treasure!"));
+			_komunikaty->push(string("You lose!"));
 			return true;
 		}
 	}
@@ -314,7 +314,7 @@ float Poszukiwacz::bron() const
 void Poszukiwacz::rozmawiaj(Stworzenie * inne)
 {
 	if(inne->milosz())
-		_komunikaty->push(string("Poszukiwacz Cię ignoruje."));
+		_komunikaty->push(string("Poszukiwacz ignores you."));
 }
 
 bool Poszukiwacz::wezZbroje(float zbroja)

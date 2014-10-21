@@ -163,14 +163,14 @@ bool Gra::idz(Kierunek kier)
 	if(_milosz.martwy())
 	{
 		_stanGry = Stan::PRZEGRANA;
-		_komunikaty.push(string("Umarłeś!"));
-		_komunikaty.push(string("Przegrana!"));
+		_komunikaty.push(string("You die!"));
+		_komunikaty.push(string("You lose!"));
 	}
 	if(_milosz.pole()->skarb())
 	{
 		_stanGry = Stan::WYGRANA;
-		_komunikaty.push(string("Tu jest skarb!"));
-		_komunikaty.push(string("Wygrana!"));
+		_komunikaty.push(string("It's the treasure!"));
+		_komunikaty.push(string("You win!"));
 	}
 	return res;
 }

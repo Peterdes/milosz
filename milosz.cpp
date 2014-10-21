@@ -33,12 +33,12 @@ bool Milosz::ruszSie(Kierunek kier)
 	
 	if(_pktyRuchu < docelowe->ruch())
 	{
-		_komunikaty->push(string("Za mało punktów ruchu."));
+		_komunikaty->push(string("Not enough movement points."));
 		return false;
 	}
 	if(! docelowe->dostepne())
 	{
-		_komunikaty->push(string("Nie możesz tam wejść."));
+		_komunikaty->push(string("It is impossible to go there."));
 		return false;
 	}
 	

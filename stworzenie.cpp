@@ -115,14 +115,14 @@ bool Stworzenie::walcz(Stworzenie * przeciwnik)
 	using std::to_string;
 	
 	if(przeciwnik->milosz())
-		_komunikaty->push( przedstaw() + " zadal Ci " + to_string(obraz1) + " obrazen." );
+		_komunikaty->push( przedstaw() + " deals " + to_string(obraz1) + "damage to you." );
 	if(milosz())
-		_komunikaty->push( "Zadales " + przeciwnik->przedstaw() + " " + to_string(obraz1) + " obrazen." );
+		_komunikaty->push( "You deal "  + to_string(obraz1) + " damage to " + przeciwnik->przedstaw() + "." );
 	
 	if(milosz())
-		_komunikaty->push( przeciwnik->przedstaw() + " zadal Ci " + to_string(obraz2) + " obrazen." );
+		_komunikaty->push( przeciwnik->przedstaw() + " deals " + to_string(obraz2) + " damage to you." );
 	if(przeciwnik->milosz())
-		_komunikaty->push( "Zadales " + przedstaw() + " " + to_string(obraz2) + " obrazen." );
+		_komunikaty->push( "You deal "  + to_string(obraz2) + " damage to " + przeciwnik->przedstaw() + "." );
 	
 	przeciwnik->oberwij(obraz1);
 	oberwij(obraz2);
