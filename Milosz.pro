@@ -38,6 +38,7 @@ HEADERS  += miloszqt.h \
 FORMS    +=
 
 OTHER_FILES += \
-    plansza1.txt \
-    plansza2.txt \
+    map1.txt \
+    map2.txt \
+    map9.txt \
     README.md
